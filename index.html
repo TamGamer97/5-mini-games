@@ -19,7 +19,22 @@
     h1 {
       font-size: 1.75rem;
       color: #333;
+      margin-bottom: 1rem;
+    }
+    .hero {
       margin-bottom: 2rem;
+      text-align: center;
+    }
+    .hero img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .hero .caption {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
     }
     .games {
       display: flex;
@@ -46,6 +61,14 @@
 </head>
 <body>
   <h1>Choose a game</h1>
+  <div class="hero">
+    <img src="assets/five-games-overview.png" alt="Five mini games overview" width="640" />
+    <p class="caption">Overview</p>
+  </div>
+  <div class="hero">
+    <img src="assets/five-games-gameplay.png" alt="Gameplay from each game" width="640" />
+    <p class="caption">Gameplay</p>
+  </div>
   <div class="games">
     <a href="object-association/">Object Association</a>
     <a href="pattern-completion/">Pattern Completion</a>

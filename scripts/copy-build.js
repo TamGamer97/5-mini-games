@@ -32,6 +32,21 @@ fs.copyFileSync(
   path.join(outDir, 'index.html')
 )
 
+// Copy assets (images) to out/assets
+const assetsSrc = path.join(root, 'assets')
+const assetsDest = path.join(outDir, 'assets')
+if (fs.existsSync(assetsSrc)) {
+  fs.mkdirSync(assetsDest, { recursive: true })
+  for (const entry of fs.readdirSync(assetsSrc, { withFileTypes: true })) {
+    const srcPath = path.join(assetsSrc, entry.name)
+    const destPath = path.join(assetsDest, entry.name)
+    if (entry.isFile()) {
+      fs.copyFileSync(srcPath, destPath)
+    }
+  }
+  console.log('Copied assets to out/assets')
+}
+
 // Copy each game's dist into out/<game>/
 function copyDirRecursive (src, dest) {
   fs.mkdirSync(dest, { recursive: true })

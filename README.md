@@ -2,6 +2,8 @@
 
 Five mini games: Object Association, Pattern Completion, Quantitative Recall, Sequence Recall, Symbol Matching.
 
+![Five games overview](assets/five-games-overview.png)
+
 ## Run locally
 
 - **Landing page:** Open `index.html` in a browser (or use a static server so the game links work).
