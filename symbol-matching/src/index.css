@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+
+/* =========================================
+   EMBED MODE - Modern Flat Design
+   ========================================= */
+
+body.embed-mode {
+  background: #ffffff;
+  margin: 0;
+  padding: 0 !important;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+body.embed-mode #root {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+body.embed-mode .app {
+  margin: 0;
+  max-width: none;
+  width: 900px;
+  height: 700px;
+  min-width: 900px;
+  min-height: 700px;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ffffff;
+  padding: 20px;
+  overflow: auto;
+}
+
+body.embed-mode .app > h1 {
+  display: none !important;
+}
+
+body.embed-mode .home-button {
+  display: none !important;
+}
+
+body.embed-mode .game-info,
+body.embed-mode .level-badge,
+body.embed-mode .score-badge,
+body.embed-mode .matches-badge {
+  display: none !important;
+}
+
+body.embed-mode .instruction-box,
+body.embed-mode .rule-display {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 24px 32px;
+  box-shadow: none;
+}
+
+body.embed-mode .instruction-text,
+body.embed-mode .rule-text {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+body.embed-mode .start-button,
+body.embed-mode .submit-button {
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.embed-mode .start-button:hover,
+body.embed-mode .submit-button:hover {
+  background: #333333;
+  transform: translateY(-1px);
+}
+
+body.embed-mode .next-button {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.embed-mode .restart-button {
+  background: #6b7280;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.embed-mode .cards-grid,
+body.embed-mode .symbols-grid {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+body.embed-mode .results-section,
+body.embed-mode .feedback-section {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+}
+
+body.embed-mode h2,
+body.embed-mode h3 {
+  color: #1a1a1a;
+  font-weight: 600;
+}

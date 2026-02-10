@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* White / light blue with faint straight grid (small spacing) */
+  background-color: #d6ebf9;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #e8f4fc 50%, #d6ebf9 100%);
+  background-size: 24px 24px, 24px 24px, 100% 100%;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+
+/* =========================================
+   EMBED MODE - Modern Flat Design
+   Matches WIN SOME home page aesthetic
+   ========================================= */
+
+body.embed-mode {
+  background: #ffffff;
+  margin: 0;
+  padding: 0 !important;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+body.embed-mode #root {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+body.embed-mode .app {
+  margin: 0;
+  max-width: none;
+  width: 900px;
+  height: 700px;
+  min-width: 900px;
+  min-height: 700px;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ffffff;
+  padding: 20px;
+  overflow: auto;
+}
+
+/* Hide home button */
+body.embed-mode .home-button {
+  display: none !important;
+}
+
+/* Timer badge styling for embed mode */
+body.embed-mode .timer-badge {
+  display: inline-block !important;
+  padding: 10px 22px;
+  background: #3b5998;
+  color: white;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+body.embed-mode .timer-badge.warning {
+  background: #ef4444;
+}
+
+/* Completed screen for embed mode */
+body.embed-mode .completed-phase {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+body.embed-mode .congrats-title {
+  font-size: 2rem;
+  color: #27ae60;
+  margin-bottom: 25px;
+}
+
+body.embed-mode .congrats-box {
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  padding: 30px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.embed-mode .final-score-value {
+  font-size: 3.5rem;
+}
+
+/* Instruction layout handled by shared InstructionScreen styles */
+
+
+/* Target highlight handled by shared InstructionScreen styles */
+
+/* Modern flat buttons */
+body.embed-mode .start-button {
+  background: #27ae60 !important;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body.embed-mode .start-button:hover {
+  background: #219a52 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+body.embed-mode .submit-button {
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body.embed-mode .submit-button:hover {
+  background: #333333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.embed-mode .next-button {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.embed-mode .next-button:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+body.embed-mode .restart-button {
+  background: #6b7280;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.embed-mode .restart-button:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+/* Timer - solid color, no gradient */
+body.embed-mode .timer-circle {
+  background: #1a1a1a;
+  box-shadow: none;
+  animation: none;
+}
+
+/* Items grid - cleaner background */
+body.embed-mode .items-grid {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+}
+
+/* Pattern display - cleaner */
+body.embed-mode .pattern-display {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+}
+
+/* Options section - centered layout */
+body.embed-mode .options-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+body.embed-mode .options-section h3 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1a1a1a;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+body.embed-mode .options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  max-width: 400px;
+}
+
+/* Option buttons - cleaner style */
+body.embed-mode .option-button {
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  min-width: 70px;
+  padding: 12px 20px;
+  font-size: 1.3rem;
+}
+
+body.embed-mode .option-button:hover:not(:disabled) {
+  border-color: #1a1a1a;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+body.embed-mode .option-button:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+body.embed-mode .option-button.correct {
+  background: #27ae60 !important;
+  border-color: #1e8449 !important;
+  color: white !important;
+}
+
+body.embed-mode .option-button.incorrect {
+  background: #e74c3c !important;
+  border-color: #c0392b !important;
+  color: white !important;
+}
+
+body.embed-mode .option-button.show-answer {
+  background: #27ae60 !important;
+  border-color: #1e8449 !important;
+  color: white !important;
+  animation: pulse-correct 0.5s ease;
+}
+
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Feedback section - cleaner */
+body.embed-mode .feedback-section {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+}
+
+/* Section headings */
+body.embed-mode h2 {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+body.embed-mode h3 {
+  color: #1a1a1a;
+  font-weight: 600;
+}

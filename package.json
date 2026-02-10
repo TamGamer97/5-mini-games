@@ -1,0 +1,9 @@
+{
+  "name": "fiverr-game-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page and build for 5 games",
+  "scripts": {
+    "build": "node scripts/copy-build.js"
+  }
+}

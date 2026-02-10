@@ -1,0 +1,443 @@
+/* Object Association – full-bleed, no trapped container */
+
+body {
+  padding: 0;
+  display: block;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem 1.25rem 2.5rem;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Home – small bubbly round button (override game-structure hide) */
+.home-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow:
+    0 3px 0 0 rgba(107, 61, 168, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.home-button:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 4px 0 0 rgba(107, 61, 168, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #3d5a80;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.game-info {
+  display: flex !important;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.level-badge,
+.score-badge {
+  display: inline-block !important;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(165deg, #e4b429 0%, #d4a017 50%, #c4920f 100%);
+  color: #2d2400;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: none;
+  box-shadow:
+    0 2px 0 0 rgba(180, 130, 0, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+}
+.score-badge {
+  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+  color: #fff;
+  box-shadow:
+    0 2px 0 0 rgba(13, 148, 136, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.game-container {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----- Instruction card: bubbly, colourful, fun (cream + rounded shapes) ----- */
+.instruction-phase {
+  max-width: 28rem;
+  padding: 0 1rem 2rem;
+}
+.instruction-phase h2 {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #9b6bcc;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+}
+.instruction-box {
+  background: #fff !important;
+  padding: 1.75rem 1.5rem !important;
+  box-shadow:
+    0 4px 0 0 rgba(155, 107, 204, 0.2),
+    0 8px 24px rgba(155, 107, 204, 0.12) !important;
+  border: 3px solid rgba(155, 107, 204, 0.25) !important;
+  border-radius: 28px !important;
+  margin-bottom: 1.5rem !important;
+  text-align: left !important;
+}
+.instruction-box .rule-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #3d5a80 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+.instruction-box .rule-description {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568 !important;
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+.instruction-hint {
+  background: linear-gradient(135deg, #fef9e8 0%, #fef3d4 100%) !important;
+  border: none !important;
+  padding: 1rem 1.1rem !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5d4e37 !important;
+  line-height: 1.55;
+  border-radius: 20px !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+}
+.instruction-hint p {
+  margin-bottom: 0.4rem;
+}
+.instruction-hint p:last-child {
+  margin-bottom: 0;
+}
+
+/* Start button – bubbly round (purple from image) */
+.start-button {
+  font-family: inherit;
+  padding: 1rem 2.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:
+    0 4px 0 0 rgba(107, 61, 168, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.02em;
+}
+.start-button:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 5px 0 0 rgba(107, 61, 168, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+}
+
+.showing-phase,
+.hidden-phase,
+.matching-phase {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.showing-phase h2,
+.hidden-phase h2,
+.matching-phase h2 {
+  color: #3d5a80;
+  margin-bottom: 24px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.timer-display {
+  margin-bottom: 28px;
+}
+
+.timer-circle {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 800;
+  box-shadow:
+    0 4px 0 0 rgba(13, 148, 136, 0.4),
+    inset 0 2px 0 0 rgba(255, 255, 255, 0.35);
+  margin: 0 auto;
+  transition: transform 0.2s;
+}
+.timer-circle:hover {
+  transform: scale(1.02);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.pairs-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.75rem 1.5rem;
+  background: #fff;
+  border-radius: 28px;
+  margin-bottom: 1.5rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow:
+    0 4px 0 0 rgba(45, 212, 191, 0.25),
+    0 8px 24px rgba(13, 148, 136, 0.12);
+  border: 3px solid rgba(45, 212, 191, 0.2);
+}
+
+.pair-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #fef9e8 0%, #fef3d4 100%);
+  border-radius: 9999px;
+  border: none;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+}
+
+.object {
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.55rem 1.1rem;
+  background: linear-gradient(165deg, #e85d5d 0%, #d94a4a 50%, #c73d3d 100%);
+  border-radius: 9999px;
+  color: #fff;
+  min-width: 100px;
+  text-align: center;
+  border: none;
+  box-shadow:
+    0 2px 0 0 rgba(180, 40, 40, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+.pair-item .object:nth-child(3) {
+  background: linear-gradient(165deg, #4a6fa5 0%, #3d5a80 50%, #2d4a6a 100%);
+  box-shadow:
+    0 2px 0 0 rgba(45, 74, 106, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+}
+
+.connector {
+  font-size: 1.5rem;
+  color: #9b6bcc;
+  font-weight: 800;
+}
+
+.matching-instructions {
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border-radius: 24px;
+  margin-bottom: 1.5rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow:
+    0 3px 0 0 rgba(228, 180, 41, 0.2),
+    0 6px 20px rgba(212, 160, 23, 0.1);
+  border: 3px solid rgba(228, 180, 41, 0.2);
+}
+
+.matching-instructions p {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3d5a80;
+  margin-bottom: 6px;
+}
+
+.objects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto 28px;
+}
+
+/* Object (match) buttons – same default colour; selected = one colour, matched = another; no move on click */
+.object-button {
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(165deg, #4a6fa5 0%, #3d5a80 50%, #2d4a6a 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  box-shadow:
+    0 3px 0 0 rgba(45, 74, 106, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+}
+
+.object-button:hover:not(:disabled) {
+  /* no transform – keep objects in the same place */
+}
+
+.object-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+/* First click: one object gets this “selected” colour */
+/* Colour variants: first click = random one of five; match = same colour for the pair */
+.object-button.object-button-purple.selected,
+.object-button.object-button-purple.matched {
+  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
+  box-shadow: 0 3px 0 0 rgba(107, 61, 168, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+.object-button.object-button-blue.selected,
+.object-button.object-button-blue.matched {
+  background: linear-gradient(165deg, #5b8fd4 0%, #4a7bc4 50%, #3a6bb0 100%);
+  box-shadow: 0 3px 0 0 rgba(58, 107, 176, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+}
+.object-button.object-button-green.selected,
+.object-button.object-button-green.matched {
+  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+  box-shadow: 0 3px 0 0 rgba(13, 148, 136, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+.object-button.object-button-orange.selected,
+.object-button.object-button-orange.matched {
+  background: linear-gradient(165deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+  box-shadow: 0 3px 0 0 rgba(180, 83, 9, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+.object-button.object-button-red.selected,
+.object-button.object-button-red.matched {
+  background: linear-gradient(165deg, #e85d5d 0%, #d94a4a 50%, #c73d3d 100%);
+  box-shadow: 0 3px 0 0 rgba(180, 40, 40, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.next-button,
+.restart-button {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.next-button {
+  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+  color: #fff;
+  border: none;
+  box-shadow:
+    0 4px 0 0 rgba(13, 148, 136, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.next-button:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 5px 0 0 rgba(13, 148, 136, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+}
+
+.restart-button {
+  background: linear-gradient(165deg, #e4b429 0%, #d4a017 50%, #c4920f 100%);
+  color: #2d2400;
+  border: none;
+  box-shadow:
+    0 3px 0 0 rgba(180, 130, 0, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+}
+
+.restart-button:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 4px 0 0 rgba(180, 130, 0, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.45);
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 24px 16px 40px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .timer-circle {
+    width: 76px;
+    height: 76px;
+    font-size: 2.2rem;
+  }
+
+  .objects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .object-button {
+    font-size: 1rem;
+    padding: 14px 12px;
+  }
+}
