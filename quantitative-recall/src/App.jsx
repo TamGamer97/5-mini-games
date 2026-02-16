@@ -222,11 +222,13 @@ function App() {
           </div>
         )}
 
-        <div className="actions">
-          <button className="restart-button" onClick={handleRestart}>
-            Restart Game
-          </button>
-        </div>
+        {gameState === 'results' && showNext && (
+          <div className="actions">
+            <button className="restart-button" onClick={handleRestart}>
+              Restart Game
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

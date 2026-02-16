@@ -8,6 +8,10 @@ import './styles/game-structure.css'
 // App.css must load LAST to override base styles
 import './App.css'
 
+/* -----------------------------------------------------------------------------
+   OBJECT PAIRS – which items are associated (e.g. Key ↔ Lock).
+   Object names here are used as labels when no image is set in OBJECT_IMAGES.
+   ----------------------------------------------------------------------------- */
 const OBJECT_PAIRS = [
   { object1: 'Key', object2: 'Lock' },
   { object1: 'Pen', object2: 'Paper' },
@@ -20,6 +24,36 @@ const OBJECT_PAIRS = [
   { object1: 'Remote', object2: 'TV' },
   { object1: 'Umbrella', object2: 'Rain' }
 ]
+
+/* -----------------------------------------------------------------------------
+   OBJECT IMAGES – optional image URLs per object.
+   - Keys must match object names used in OBJECT_PAIRS (e.g. 'Key', 'Lock').
+   - image: shown when the card is NOT selected (default state).
+   - imageSelected: shown when the card IS selected or matched (active state).
+   - If you omit an object or leave both URLs empty, the object name is shown as text.
+   Example:
+     Key: {
+       image: '/images/key.png',
+       imageSelected: '/images/key-selected.png'
+     },
+   ----------------------------------------------------------------------------- */
+const OBJECT_IMAGES = {
+  // Key: { image: '/path/to/key.png', imageSelected: '/path/to/key-selected.png' },
+  // Lock: { image: '/path/to/lock.png', imageSelected: '/path/to/lock-selected.png' },
+  // Add more entries for Pen, Paper, Shoe, Sock, etc. as needed.
+}
+
+/**
+ * Returns the image URL to show for an object, or null if it should render as text.
+ * @param {string} objectName - e.g. 'Key', 'Lock'
+ * @param {boolean} isActive - true when selected or matched
+ */
+function getObjectImage(objectName, isActive) {
+  const config = OBJECT_IMAGES[objectName]
+  if (!config) return null
+  const url = isActive && config.imageSelected ? config.imageSelected : config.image
+  return url || null
+}
 
 const MATCH_COLOURS = ['purple', 'blue', 'green', 'orange', 'red']
 
@@ -143,18 +177,33 @@ function App() {
     window.location.href = '/'
   }
 
+  const pairsRemaining = gameState === 'matching' ? pairs.length - matchedPairs.length : pairs.length
+
   return (
-    <div className="app">
-      <button className="home-button" onClick={goHome}>
+    <div className="app object-association-design">
+      <button className="home-button" onClick={goHome} aria-label="Home">
         Home
       </button>
-      
-      <h1>Object Association</h1>
-      
-      <div className="game-info">
-        <div className="level-badge">Level {level}</div>
-        <div className="score-badge">Score: {score}</div>
-      </div>
+
+      {gameState === 'matching' && (
+        <header className="game-header">
+          <span className="header-balance">Balance: {score}</span>
+          <div className="header-right">
+            <span className="header-session">Session {level}</span>
+            <span className="header-pairs">{pairsRemaining} Pairs Remaining</span>
+          </div>
+        </header>
+      )}
+
+      {gameState !== 'matching' && (
+        <>
+          <h1 className="game-title">Object Association</h1>
+          <div className="game-info">
+            <span className="level-badge">Level {level}</span>
+            <span className="score-badge">Score: {score}</span>
+          </div>
+        </>
+      )}
 
       <div className="game-container">
         {gameState === 'instruction' && (
@@ -179,9 +228,21 @@ function App() {
             <div className="pairs-display">
               {pairs.map((pair, index) => (
                 <div key={index} className="pair-item">
-                  <span className="object">{pair.object1}</span>
+                  <span className="object object--display">
+                    {getObjectImage(pair.object1, false) ? (
+                      <img src={getObjectImage(pair.object1, false)} alt={pair.object1} className="object-img" />
+                    ) : (
+                      pair.object1
+                    )}
+                  </span>
                   <span className="connector">→</span>
-                  <span className="object">{pair.object2}</span>
+                  <span className="object object--display">
+                    {getObjectImage(pair.object2, false) ? (
+                      <img src={getObjectImage(pair.object2, false)} alt={pair.object2} className="object-img" />
+                    ) : (
+                      pair.object2
+                    )}
+                  </span>
                 </div>
               ))}
             </div>
@@ -197,11 +258,6 @@ function App() {
 
         {gameState === 'matching' && (
           <div className="matching-phase">
-            <h2>Match the Associated Objects</h2>
-            <div className="matching-instructions">
-              <p>Click on objects that go together</p>
-              <p>Matched: {matchedPairs.length} / {pairs.length}</p>
-            </div>
             <div className="objects-grid">
               {matchingOrder.map((object, index) => {
                 const isMatched = pairs.some(p =>
@@ -209,32 +265,39 @@ function App() {
                   matchedPairs.includes(p.object1)
                 )
                 const isSelected = selectedObject === object
-                const colour = getObjectColour(object)
+                const isActive = isSelected || isMatched
+                const imageUrl = getObjectImage(object, isActive)
                 return (
                   <button
-                    key={object}
-                    className={`object-button object-button-${colour} ${isSelected ? 'selected' : ''} ${isMatched ? 'matched' : ''}`}
+                    key={`object-${index}`}
+                    type="button"
+                    className={`object-card ${isActive ? 'object-card--active' : ''}`}
                     onClick={() => handleObjectClick(object)}
                     disabled={isMatched || showNext}
                   >
-                    {object}
+                    {imageUrl ? (
+                      <img src={imageUrl} alt={object} className="object-card__img" />
+                    ) : (
+                      object
+                    )}
                   </button>
                 )
               })}
             </div>
             {showNext && (
-              <button className="next-button" onClick={handleNext}>
-                Next Level
-              </button>
+              <>
+                <button type="button" className="next-button" onClick={handleNext}>
+                  Next Level
+                </button>
+                <div className="actions">
+                  <button type="button" className="reset-button" onClick={handleRestart}>
+                    Reset
+                  </button>
+                </div>
+              </>
             )}
           </div>
         )}
-
-        <div className="actions">
-          <button className="restart-button" onClick={handleRestart}>
-            Restart Game
-          </button>
-        </div>
       </div>
     </div>
   )

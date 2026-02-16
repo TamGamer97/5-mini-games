@@ -52,6 +52,7 @@ function App() {
   const [isCorrect, setIsCorrect] = useState(null)
   const [showNext, setShowNext] = useState(false)
   const [isInitializing, setIsInitializing] = useState(false)
+  const [incorrectCount, setIncorrectCount] = useState(0)
 
   useEffect(() => {
     if (gameState === 'showing' || gameState === 'instruction') {
@@ -94,11 +95,13 @@ function App() {
 
   const handleSubmit = () => {
     if (userSequence.length === 0) return
-    
+
     const correct = JSON.stringify(userSequence) === JSON.stringify(currentSequence.sequence)
     setIsCorrect(correct)
     if (correct) {
       setScore(prev => prev + 10)
+    } else {
+      setIncorrectCount(prev => prev + 1)
     }
     setShowNext(true)
     setGameState('results')
@@ -121,6 +124,7 @@ function App() {
     }
     setLevel(1)
     setScore(0)
+    setIncorrectCount(0)
     setGameState('instruction')
   }
 
@@ -136,16 +140,19 @@ function App() {
   const availableItems = currentSequence.type === 'colors' ? COLORS : 
                          currentSequence.type === 'numbers' ? NUMBERS : LETTERS
 
+  const showSessionHeader = ['showing', 'hidden', 'recall', 'results'].includes(gameState)
+
   return (
-    <div className="app">
-      <button className="home-button" onClick={goHome}>Home</button>
-      
-      <h1>Sequence Recall</h1>
-      
-      <div className="game-info">
-        <div className="level-badge">Level {level}</div>
-        <div className="score-badge">Score: {score}</div>
-      </div>
+    <div className="app app--soft">
+      <div className="grain-overlay" aria-hidden="true" />
+      <button className="home-button" onClick={goHome} aria-label="Home">Home</button>
+
+      {showSessionHeader && (
+        <div className="session-header">
+          <div className="session-header__line">Session {level}</div>
+          <div className="session-header__line">{incorrectCount} Incorrect</div>
+        </div>
+      )}
 
       <div className="game-container">
         {gameState === 'instruction' && (
@@ -163,13 +170,15 @@ function App() {
 
         {gameState === 'showing' && (
           <div className="showing-phase">
-            <h2>Remember the Sequence</h2>
-            <div className="timer-display">
-              <div className="timer-circle">{timeRemaining}</div>
+            <div className="central-display central-display--recessed">
+              <div className="central-display__inner central-display__inner--timer-only">
+                <span className="central-display__timer-number">{timeRemaining}</span>
+              </div>
+              <p className="central-display__instruction">Remember the Sequence</p>
             </div>
-            <div className="sequence-display">
+            <div className="sequence-display-boxes" aria-label="Sequence to remember">
               {currentSequence.sequence.map((item, index) => (
-                <div key={index} className={`sequence-item ${currentSequence.type}`}>
+                <div key={index} className="sequence-display-box">
                   {item}
                 </div>
               ))}
@@ -179,32 +188,41 @@ function App() {
 
         {gameState === 'hidden' && (
           <div className="hidden-phase">
-            <h2>Sequence Hidden</h2>
-            <p>Get ready to recall...</p>
+            <div className="central-display central-display--recessed">
+              <div className="central-display__inner">
+                <span className="central-display__placeholder">—</span>
+              </div>
+              <p className="central-display__instruction">Get ready to recall…</p>
+            </div>
           </div>
         )}
 
         {gameState === 'recall' && (
           <div className="recall-phase">
-            <h2>Recreate the Sequence</h2>
-            <div className="user-sequence">
-              <p>Your sequence:</p>
-              <div className="sequence-display">
-                {userSequence.map((item, index) => (
-                  <div key={index} className={`sequence-item ${currentSequence.type}`}>
-                    {item}
+            <div className={`central-display central-display--recessed${userSequence.length > 0 ? ' central-display--expandable' : ''}`}>
+              <div className="central-display__inner">
+                {userSequence.length > 0 ? (
+                  <div className="sequence-display sequence-display--in-frame">
+                    {userSequence.map((item, index) => (
+                      <span key={index} className={`sequence-item sequence-item--in-frame ${currentSequence.type}`}>
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                ))}
-                {userSequence.length === 0 && (
-                  <p className="empty-message">Click items below to build sequence</p>
+                ) : (
+                  <span className="central-display__placeholder">?</span>
                 )}
               </div>
+              <p className="central-display__instruction">
+                {currentSequence.type === 'numbers' ? 'Recall the Number' : 'Recreate the sequence'}
+              </p>
             </div>
-            <div className="available-items">
+            <div className="choice-buttons">
               {availableItems.map((item, index) => (
                 <button
                   key={index}
-                  className={`item-button ${currentSequence.type}`}
+                  type="button"
+                  className="choice-button"
                   onClick={() => handleItemClick(item)}
                 >
                   {item}
@@ -212,10 +230,10 @@ function App() {
               ))}
             </div>
             <div className="recall-actions">
-              <button className="clear-button" onClick={handleClear}>
+              <button type="button" className="soft-button" onClick={handleClear}>
                 Clear
               </button>
-              <button className="submit-button" onClick={handleSubmit} disabled={userSequence.length === 0}>
+              <button type="button" className="soft-button soft-button--primary" onClick={handleSubmit} disabled={userSequence.length === 0}>
                 Submit
               </button>
             </div>
@@ -224,48 +242,52 @@ function App() {
 
         {gameState === 'results' && showNext && (
           <div className="results-phase">
-            <h2>Results</h2>
-            {isCorrect ? (
-              <p className="feedback correct">✓ Correct! +10 points</p>
-            ) : (
-              <p className="feedback incorrect">✗ Incorrect. Try again!</p>
-            )}
+            <div className="central-display central-display--recessed">
+              <div className="central-display__inner">
+                {isCorrect ? (
+                  <span className="central-display__result central-display__result--correct">Correct</span>
+                ) : (
+                  <span className="central-display__result central-display__result--incorrect">Incorrect</span>
+                )}
+              </div>
+              <p className="central-display__instruction">
+                {isCorrect ? `+10 points · Score: ${score}` : 'Try again'}
+              </p>
+            </div>
             <div className="comparison">
               <div className="sequence-comparison">
-                <p>Correct sequence:</p>
-                <div className="sequence-display">
+                <p>Correct:</p>
+                <div className="sequence-display sequence-display--small">
                   {currentSequence.sequence.map((item, index) => (
-                    <div key={index} className={`sequence-item ${currentSequence.type} correct`}>
+                    <span key={index} className={`sequence-item sequence-item--small ${currentSequence.type}`}>
                       {item}
-                    </div>
+                    </span>
                   ))}
                 </div>
               </div>
               <div className="sequence-comparison">
-                <p>Your sequence:</p>
-                <div className="sequence-display">
+                <p>Yours:</p>
+                <div className="sequence-display sequence-display--small">
                   {userSequence.map((item, index) => {
-                    const isCorrectPos = item === currentSequence.sequence[index]
+                    const ok = item === currentSequence.sequence[index]
                     return (
-                      <div key={index} className={`sequence-item ${currentSequence.type} ${isCorrectPos ? 'correct' : 'incorrect'}`}>
+                      <span key={index} className={`sequence-item sequence-item--small ${currentSequence.type} ${ok ? 'correct' : 'incorrect'}`}>
                         {item}
-                      </div>
+                      </span>
                     )
                   })}
                 </div>
               </div>
             </div>
-            <button className="next-button" onClick={handleNext}>
+            <button type="button" className="soft-button soft-button--primary" onClick={handleNext}>
               {isCorrect ? 'Next Level' : 'Try Again'}
+            </button>
+            <button type="button" className="soft-button soft-button--reset" onClick={handleRestart}>
+              Reset
             </button>
           </div>
         )}
 
-        <div className="actions">
-          <button className="restart-button" onClick={handleRestart}>
-            Restart Game
-          </button>
-        </div>
       </div>
     </div>
   )

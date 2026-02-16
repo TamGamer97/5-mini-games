@@ -1,95 +1,100 @@
-/* Object Association – full-bleed, no trapped container */
+/* Object Association – design: clean, minimal, white/grey/black */
 
-body {
-  padding: 0;
-  display: block;
-  align-items: stretch;
-  justify-content: stretch;
-}
-
-.app {
+.app.object-association-design {
   min-height: 100vh;
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 1.5rem 1.25rem 2.5rem;
-  background: transparent;
+  padding: 0;
+  background: #f2f2f2;
   box-shadow: none;
   border-radius: 0;
-  backdrop-filter: none;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
-/* Home – small bubbly round button (override game-structure hide) */
 .home-button {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
   position: fixed;
-  top: 1.25rem;
-  left: 1.25rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
-  border: none;
-  border-radius: 9999px;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #404040;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   cursor: pointer;
   z-index: 1000;
-  box-shadow:
-    0 3px 0 0 rgba(107, 61, 168, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 .home-button:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 4px 0 0 rgba(107, 61, 168, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  background: #f5f5f5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #3d5a80;
-  margin-bottom: 1.25rem;
+/* ----- Header (matching phase only): Balance left, Session + Pairs right ----- */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem 1rem;
+  background: #f2f2f2;
+  flex-shrink: 0;
+}
+
+.header-balance {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.header-session {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.header-pairs {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: #6b6b6b;
+}
+
+/* ----- Non-matching phases: title + badges ----- */
+.game-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 1.5rem 0 1rem;
   text-align: center;
-  letter-spacing: -0.02em;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .game-info {
-  display: flex !important;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .level-badge,
 .score-badge {
-  display: inline-block !important;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(165deg, #e4b429 0%, #d4a017 50%, #c4920f 100%);
-  color: #2d2400;
-  border-radius: 9999px;
-  font-weight: 700;
   font-size: 0.875rem;
-  border: none;
-  box-shadow:
-    0 2px 0 0 rgba(180, 130, 0, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-}
-.score-badge {
-  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
-  color: #fff;
-  box-shadow:
-    0 2px 0 0 rgba(13, 148, 136, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  color: #4a4a4a;
+  padding: 0.4rem 0.75rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
 }
 
 .game-container {
@@ -99,345 +104,296 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 1.5rem 2rem;
 }
 
-/* ----- Instruction card: bubbly, colourful, fun (cream + rounded shapes) ----- */
+/* ----- Instruction (shared component overrides) ----- */
 .instruction-phase {
   max-width: 28rem;
-  padding: 0 1rem 2rem;
+  padding: 0 0.5rem 1.5rem;
 }
 .instruction-phase h2 {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #9b6bcc;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  text-transform: none;
+  letter-spacing: 0;
   margin-bottom: 0.75rem;
 }
 .instruction-box {
   background: #fff !important;
-  padding: 1.75rem 1.5rem !important;
-  box-shadow:
-    0 4px 0 0 rgba(155, 107, 204, 0.2),
-    0 8px 24px rgba(155, 107, 204, 0.12) !important;
-  border: 3px solid rgba(155, 107, 204, 0.25) !important;
-  border-radius: 28px !important;
-  margin-bottom: 1.5rem !important;
-  text-align: left !important;
+  padding: 1.5rem 1.25rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid #e8e8e8 !important;
+  border-radius: 12px !important;
+  margin-bottom: 1.25rem !important;
 }
 .instruction-box .rule-name {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #3d5a80 !important;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  margin-bottom: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333 !important;
+  margin-bottom: 0.5rem;
 }
 .instruction-box .rule-description {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #4a5568 !important;
-  line-height: 1.55;
-  margin-bottom: 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #555 !important;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
 }
 .instruction-hint {
-  background: linear-gradient(135deg, #fef9e8 0%, #fef3d4 100%) !important;
-  border: none !important;
-  padding: 1rem 1.1rem !important;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #5d4e37 !important;
-  line-height: 1.55;
-  border-radius: 20px !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  background: #f8f8f8 !important;
+  border: 1px solid #eee !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555 !important;
+  line-height: 1.5;
+  border-radius: 8px !important;
 }
-.instruction-hint p {
-  margin-bottom: 0.4rem;
-}
-.instruction-hint p:last-child {
-  margin-bottom: 0;
-}
-
-/* Start button – bubbly round (purple from image) */
 .start-button {
-  font-family: inherit;
-  padding: 1rem 2.25rem;
-  font-size: 1rem;
-  font-weight: 700;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
   color: #fff;
-  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
+  background: #333;
   border: none;
-  border-radius: 9999px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow:
-    0 4px 0 0 rgba(107, 61, 168, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.02em;
+  transition: background 0.2s;
 }
 .start-button:hover {
-  transform: scale(1.06);
-  box-shadow:
-    0 5px 0 0 rgba(107, 61, 168, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  background: #222;
 }
 
+/* ----- Showing phase ----- */
 .showing-phase,
-.hidden-phase,
-.matching-phase {
+.hidden-phase {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 1.5rem;
 }
-
 .showing-phase h2,
-.hidden-phase h2,
-.matching-phase h2 {
-  color: #3d5a80;
-  margin-bottom: 24px;
-  font-size: 1.4rem;
-  font-weight: 700;
+.hidden-phase h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
 }
-
 .timer-display {
-  margin-bottom: 28px;
+  margin-bottom: 1rem;
 }
-
 .timer-circle {
-  width: 5.5rem;
-  height: 5.5rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
-  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+  background: #333;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.25rem;
-  font-weight: 800;
-  box-shadow:
-    0 4px 0 0 rgba(13, 148, 136, 0.4),
-    inset 0 2px 0 0 rgba(255, 255, 255, 0.35);
+  font-size: 1.5rem;
+  font-weight: 600;
   margin: 0 auto;
-  transition: transform 0.2s;
 }
-.timer-circle:hover {
-  transform: scale(1.02);
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
 .pairs-display {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.75rem 1.5rem;
+  gap: 0.75rem;
+  padding: 1.25rem;
   background: #fff;
-  border-radius: 28px;
-  margin-bottom: 1.5rem;
-  max-width: 560px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow:
-    0 4px 0 0 rgba(45, 212, 191, 0.25),
-    0 8px 24px rgba(13, 148, 136, 0.12);
-  border: 3px solid rgba(45, 212, 191, 0.2);
+  border-radius: 12px;
+  margin: 0 auto 1rem;
+  max-width: 24rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8e8e8;
 }
-
 .pair-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, #fef9e8 0%, #fef3d4 100%);
-  border-radius: 9999px;
-  border: none;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #eee;
 }
-
 .object {
-  font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.55rem 1.1rem;
-  background: linear-gradient(165deg, #e85d5d 0%, #d94a4a 50%, #c73d3d 100%);
-  border-radius: 9999px;
-  color: #fff;
-  min-width: 100px;
-  text-align: center;
-  border: none;
-  box-shadow:
-    0 2px 0 0 rgba(180, 40, 40, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #333;
+  padding: 0.35rem 0.75rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
 }
 .pair-item .object:nth-child(3) {
-  background: linear-gradient(165deg, #4a6fa5 0%, #3d5a80 50%, #2d4a6a 100%);
-  box-shadow:
-    0 2px 0 0 rgba(45, 74, 106, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
-}
-
-.connector {
-  font-size: 1.5rem;
-  color: #9b6bcc;
-  font-weight: 800;
-}
-
-.matching-instructions {
-  padding: 1rem 1.25rem;
   background: #fff;
-  border-radius: 24px;
-  margin-bottom: 1.5rem;
-  max-width: 560px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow:
-    0 3px 0 0 rgba(228, 180, 41, 0.2),
-    0 6px 20px rgba(212, 160, 23, 0.1);
-  border: 3px solid rgba(228, 180, 41, 0.2);
+  border-color: #e0e0e0;
+}
+.connector {
+  font-size: 1.125rem;
+  color: #888;
+  font-weight: 600;
 }
 
-.matching-instructions p {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #3d5a80;
-  margin-bottom: 6px;
+/* ----- Matching phase: grid of square cards ----- */
+.matching-phase {
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5rem;
 }
 
 .objects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  max-width: 640px;
-  margin: 0 auto 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto 1.5rem;
+  border: 1px solid #d8d8d8;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-/* Object (match) buttons – same default colour; selected = one colour, matched = another; no move on click */
-.object-button {
-  padding: 1rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(165deg, #4a6fa5 0%, #3d5a80 50%, #2d4a6a 100%);
+.object-card {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #333;
+  background: #fff;
   border: none;
-  border-radius: 9999px;
+  border-right: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-  box-shadow:
-    0 3px 0 0 rgba(45, 74, 106, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  transition: background 0.2s, color 0.2s;
 }
 
-.object-button:hover:not(:disabled) {
-  /* no transform – keep objects in the same place */
+/* Thin grid line between columns: remove right border on last column only */
+.object-card:nth-child(3n) {
+  border-right: none;
 }
 
-.object-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.85;
+.object-card:hover:not(:disabled) {
+  background: #f8f8f8;
 }
 
-/* First click: one object gets this “selected” colour */
-/* Colour variants: first click = random one of five; match = same colour for the pair */
-.object-button.object-button-purple.selected,
-.object-button.object-button-purple.matched {
-  background: linear-gradient(165deg, #9b6bcc 0%, #7c4dbb 50%, #6b3da8 100%);
-  box-shadow: 0 3px 0 0 rgba(107, 61, 168, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-}
-.object-button.object-button-blue.selected,
-.object-button.object-button-blue.matched {
-  background: linear-gradient(165deg, #5b8fd4 0%, #4a7bc4 50%, #3a6bb0 100%);
-  box-shadow: 0 3px 0 0 rgba(58, 107, 176, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
-}
-.object-button.object-button-green.selected,
-.object-button.object-button-green.matched {
-  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
-  box-shadow: 0 3px 0 0 rgba(13, 148, 136, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-}
-.object-button.object-button-orange.selected,
-.object-button.object-button-orange.matched {
-  background: linear-gradient(165deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-  box-shadow: 0 3px 0 0 rgba(180, 83, 9, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-}
-.object-button.object-button-red.selected,
-.object-button.object-button-red.matched {
-  background: linear-gradient(165deg, #e85d5d 0%, #d94a4a 50%, #c73d3d 100%);
-  box-shadow: 0 3px 0 0 rgba(180, 40, 40, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+.object-card:disabled {
+  cursor: default;
 }
 
-.next-button,
-.restart-button {
-  padding: 0.875rem 1.75rem;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.next-button {
-  background: linear-gradient(165deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+.object-card--active {
+  background: #1a1a1a;
   color: #fff;
+}
+
+.object-card--active:hover:not(:disabled) {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+/* Image inside object card (matching grid) */
+.object-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Image inside pair item (showing phase) */
+.object--display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4rem;
+  min-height: 3rem;
+}
+.object-img {
+  max-width: 80px;
+  max-height: 48px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Next Level (when round complete) */
+.matching-phase .next-button {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  background: #333;
   border: none;
-  box-shadow:
-    0 4px 0 0 rgba(13, 148, 136, 0.4),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+}
+.matching-phase .next-button:hover {
+  background: #222;
 }
 
-.next-button:hover {
-  transform: scale(1.06);
-  box-shadow:
-    0 5px 0 0 rgba(13, 148, 136, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+/* Reset button – design: light grey, rounded rect, subtle shadow */
+.reset-button {
+  padding: 0.625rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #404040;
+  background: #e8e8e8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
-.restart-button {
-  background: linear-gradient(165deg, #e4b429 0%, #d4a017 50%, #c4920f 100%);
-  color: #2d2400;
-  border: none;
-  box-shadow:
-    0 3px 0 0 rgba(180, 130, 0, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-}
-
-.restart-button:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 4px 0 0 rgba(180, 130, 0, 0.3),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.45);
+.reset-button:hover {
+  background: #dedede;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .actions {
   display: flex;
-  gap: 14px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 24px;
+  gap: 0.75rem;
+  margin-top: 0;
+}
+
+.restart-button {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #404040;
+  background: #e8e8e8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.restart-button:hover {
+  background: #dedede;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
-  .app {
-    padding: 24px 16px 40px;
+  .game-header {
+    padding: 1.25rem 1rem 0.75rem;
   }
-
-  h1 {
-    font-size: 1.75rem;
-  }
-
-  .timer-circle {
-    width: 76px;
-    height: 76px;
-    font-size: 2.2rem;
-  }
-
   .objects-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    max-width: 20rem;
+    gap: 0.5rem;
   }
-
-  .object-button {
-    font-size: 1rem;
-    padding: 14px 12px;
+  .object-card {
+    font-size: 0.875rem;
   }
 }

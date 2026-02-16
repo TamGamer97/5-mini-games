@@ -123,16 +123,23 @@ function App() {
 
   if (!currentMatch) return null
 
+  // Fill 3×6 grid (18 tiles) by repeating the sequence
+  const GRID_ROWS = 3
+  const GRID_COLS = 6
+  const gridSize = GRID_ROWS * GRID_COLS
+  const gridSymbols = Array.from({ length: gridSize }, (_, i) =>
+    currentMatch.symbols[i % currentMatch.symbols.length]
+  )
+
   return (
-    <div className="app">
-      <button className="home-button" onClick={goHome}>Home</button>
-      
-      <h1>Symbol Matching</h1>
-      
-      <div className="game-info">
-        <div className="level-badge">Level {level}</div>
-        <div className="score-badge">Score: {score}</div>
-      </div>
+    <div className="app app--symbol-matching">
+      <button className="home-button" onClick={goHome} aria-label="Home">Home</button>
+
+      <header className="symbol-header">
+        <div className="symbol-header__pill">Balance: {score}</div>
+        <h1 className="symbol-header__title">Symbol Matching</h1>
+        <div className="symbol-header__pill">Level {level}</div>
+      </header>
 
       <div className="game-container">
         {gameState === 'instruction' && (
@@ -149,76 +156,76 @@ function App() {
         )}
 
         {gameState === 'playing' && (
-        <>
-        <div className="symbols-section">
-          <h2>Match the Pattern</h2>
-          <div className="symbols-display">
-            {currentMatch.symbols.map((symbol, index) => (
-              <div key={`${symbol.id}-${index}`} className={`symbol-card border-${symbol.border}`}>
-                <div className="symbol-icon">{symbol.icon}</div>
-                <div className="symbol-value">{symbol.value}</div>
+          <>
+            <div className="symbol-grid-wrap">
+              {[0, 1, 2].map((rowIndex) => (
+                <div key={rowIndex} className="symbol-grid-row">
+                  <div className="symbol-grid-row__line" aria-hidden="true" />
+                  <div className="symbol-grid-row__tiles">
+                    {gridSymbols.slice(rowIndex * GRID_COLS, (rowIndex + 1) * GRID_COLS).map((symbol, colIndex) => (
+                      <div key={`${rowIndex}-${colIndex}`} className="symbol-tile-cell">
+                        <div className={`symbol-tile symbol-tile--${symbol.border}`}>
+                          <div className="symbol-tile__icon">{symbol.icon}</div>
+                        </div>
+                        <div className="symbol-tile__value">{symbol.value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="options-section">
+              <p className="options-section__prompt">Which symbol completes the pattern?</p>
+              <div className="options-grid">
+                {currentMatch.targetSymbols.map((symbol, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`option-button option-button--${symbol.border} ${
+                      selectedAnswer === index
+                        ? isCorrect
+                          ? 'option-button--correct'
+                          : 'option-button--incorrect'
+                        : ''
+                    } ${showNext && index === currentMatch.answer ? 'option-button--show-answer' : ''}`}
+                    onClick={() => handleSelect(index)}
+                    disabled={showNext}
+                  >
+                    <span className="option-button__icon">{symbol.icon}</span>
+                    <span className="option-button__value">{symbol.value}</span>
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="options-section">
-          <h3>Which symbol completes the pattern?</h3>
-          <div className="options-grid">
-            {currentMatch.targetSymbols.map((symbol, index) => (
-              <button
-                key={index}
-                className={`option-button ${
-                  selectedAnswer === index
-                    ? isCorrect
-                      ? 'correct'
-                      : 'incorrect'
-                    : ''
-                } ${
-                  showNext && index === currentMatch.answer ? 'show-answer' : ''
-                } symbol-card border-${symbol.border}`}
-                onClick={() => handleSelect(index)}
-                disabled={showNext}
-              >
-                <div className="symbol-icon">{symbol.icon}</div>
-                <div className="symbol-value">{symbol.value}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {showNext && (
-          <div className="feedback-section">
-            {isCorrect ? (
-              <p className="feedback correct">✓ Correct! +10 points</p>
-            ) : (
-              <p className="feedback incorrect">
-                {(() => {
-                  const correctSymbol = currentMatch.targetSymbols[currentMatch.answer]
-                  return (
-                    <>
-                      ✗ Incorrect. The answer was{' '}
-                      <span className={`symbol-card inline border-${correctSymbol.border}`}>
-                        <span className="symbol-icon">{correctSymbol.icon}</span>
-                        <span className="symbol-value">{correctSymbol.value}</span>
-                      </span>
-                    </>
-                  )
-                })()}
-              </p>
+            {showNext && (
+              <div className="feedback-section">
+                {isCorrect ? (
+                  <p className="feedback feedback--correct">Correct! +10 points</p>
+                ) : (
+                  <p className="feedback feedback--incorrect">
+                    Incorrect. The answer was{' '}
+                    <span className="feedback-symbol">
+                      <span className="feedback-symbol__icon">{currentMatch.targetSymbols[currentMatch.answer].icon}</span>
+                      <span className="feedback-symbol__value">{currentMatch.targetSymbols[currentMatch.answer].value}</span>
+                    </span>
+                  </p>
+                )}
+                <button type="button" className="next-button" onClick={handleNext}>
+                  {isCorrect ? 'Next Level' : 'Try Again'}
+                </button>
+              </div>
             )}
-            <button className="next-button" onClick={handleNext}>
-              {isCorrect ? 'Next Level' : 'Try Again'}
-            </button>
-          </div>
-        )}
 
-        <div className="actions">
-          <button className="restart-button" onClick={handleRestart}>
-            Restart Game
-          </button>
-        </div>
-        </>
+            {showNext && (
+              <div className="actions">
+                <button type="button" className="restart-button" onClick={handleRestart}>
+                  Restart Game
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
